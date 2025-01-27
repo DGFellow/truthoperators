@@ -1,6 +1,6 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Courier New', Courier, monospace, sans-serif;
     margin: 0;
     padding: 0;
     line-height: 1.6;
@@ -14,6 +14,8 @@ body.dark-mode {
     color: #f1f1f1;
 }
 
+
+
 /* Header */
 header {
     background: #fff;
@@ -22,6 +24,10 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 body.dark-mode header {
@@ -35,134 +41,6 @@ header h1 {
     font-size: 1.5rem;
 }
 
-/* Navigation */
-nav {
-    background: #fff;
-    color: #000;
-    padding: 0.5rem 0;
-    text-align: center;
-}
-
-body.dark-mode nav {
-    background: #333;
-    color: #fff;
-}
-
-nav a {
-    color: inherit;
-    text-decoration: none;
-    margin: 0 1rem;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-
-/* Rain Background Container */
-#rainBackground {
-    position: absolute; /* Full-page positioning */
-    top: 120px; /* Start below the header and navigation */
-    bottom: 120px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 120px); /* Adjust height to account for header and navigation */
-    overflow: hidden; /* Prevent overflow of rain drops */
-    z-index: 0; /* Ensure it stays behind the content */
-    background: linear-gradient(to bottom, #000, #222); /* Subtle gradient */
-}
-
-/* Dark Mode */
-body.dark-mode #rainBackground {
-    background: linear-gradient(to bottom, #121212, #1e1e1e); /* Dark mode gradient */
-}
-
-
-/* Cloud for Matrix Rain */
-.cloud {
-    position: relative; /* Matches parent container */
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Ensure no drops spill outside */
-}
-
-/* Foreground Content */
-.content-container {
-    position: relative; /* Content stays above rain */
-    z-index: 1; /* Higher z-index than rain background */
-    padding: 2rem; /* Internal spacing */
-    background-color: rgba(255, 255, 255, 0.9); /* Transparent background */
-    border-radius: 12px; /* Rounded corners */
-    margin: 0 auto; /* Center the container */
-    max-width: 900px; /* Limit content width */
-}
-
-body.dark-mode .content-container {
-    background-color: rgba(18, 18, 18, 0.9); /* Dark mode content background */
-    color: #fff;
-}
-
-/* Article Styling */
-article {
-    padding: 1rem;
-    border-bottom: 1px solid #ddd;
-}
-
-body.dark-mode article {
-    border-bottom: 1px solid #444;
-}
-
-article:last-of-type {
-    border-bottom: none;
-}
-
-/* Matrix Rain Drops */
-.drop {
-    position: absolute;
-    top: -50px; /* Start above the container */
-    font-size: 16px;
-    color: #00ff00;
-    animation: fall ease-in-out infinite;
-}
-
-.title-drop {
-    position: absolute;
-    top: -50px;
-    font-size: 20px;
-    color: #ff0000;
-    font-weight: bold;
-    animation: fall ease-in-out infinite;
-}
-
-body.dark-mode .drop {
-    color: #00cc00; /* Dim green for dark mode */
-}
-
-body.dark-mode .title-drop {
-    color: #ff5555; /* Adjusted red for dark mode */
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(0); /* Start at the top */
-    }
-    100% {
-        transform: translateY(100vh); /* End at the bottom of the viewport */
-    }
-}
-
-/* Footer */
-footer {
-    background: #fff;
-    color: #000;
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: 2rem;
-}
-
-body.dark-mode footer {
-    background: #333;
-    color: #fff;
-}
 
 /* Toggle Switch */
 .switch {
@@ -214,3 +92,174 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+/* Navigation */
+nav {
+    background: #fff;
+    color: #000;
+    padding: 1rem 0;
+    text-align: center;
+    position: sticky;
+    top: 60px; /* Below header */
+    z-index: 9;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode nav {
+    background: #333;
+    color: #fff;
+}
+
+nav a {
+    color: inherit;
+    text-decoration: none;
+    margin: 0 1rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+/* Rain Background Container */
+#rainBackground {
+    position: fixed; /* Full-page positioning */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Prevent overflow of rain drops */
+    z-index: 0; /* Ensure it stays behind the content */
+    background: linear-gradient(to bottom, #fff, #b1b1b1); /* Subtle gradient */
+}
+
+/* Dark Mode */
+body.dark-mode #rainBackground {
+    background: linear-gradient(to bottom, #121212, #1e1e1e); /* Dark mode gradient */
+}
+
+/* Cloud for Matrix Rain */
+.cloud {
+    position: relative; /* Matches parent container */
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Ensure no drops spill outside */
+}
+
+/* Foreground Content */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.content-wrapper {
+    background-color: rgba(255, 255, 255, 0.9); /* Transparent background */
+    border-radius: 12px; /* Rounded corners */
+    padding: 2rem; /* Internal spacing */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Soft shadow */
+    max-width: 90%; /* Limit content width */
+    width: 90%; /* Responsive width */
+}
+
+body.dark-mode .content-wrapper {
+    background-color: rgba(18, 18, 18, 0.9); /* Dark mode content background */
+    color: #fff;
+}
+
+#threeContainer {
+    height: 300px; /* Set a fixed height for the Three.js container */
+    margin-bottom: 20px; /* Add spacing below the 3D container */
+    position: relative; /* Ensure it doesn’t overlap other containers */
+    z-index: 2; /* Make sure it stays visible above the rain background */
+}
+
+#articleContainer {
+    overflow-y: auto; /* Enable scrolling if needed */
+    max-height: 400px; /* Limit the height of the article container */
+    padding: 1rem; 
+    position: relative; /* Ensure it stays in its intended position */
+    z-index: 2; /* Same z-index to stack properly */
+    margin-top: 20px; /* Add some spacing above the articles */
+}
+
+
+
+
+/* Article Styling */
+article {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+body.dark-mode article {
+    border-bottom: 1px solid #444;
+}
+
+article:last-of-type {
+    border-bottom: none;
+}
+
+/* Matrix Rain Drops */
+.drop {
+    position: absolute;
+    top: -50px; /* Start above the container */
+    font-size: 20px;
+    color: #000000;
+    animation: fall ease-in-out infinite;
+}
+
+.title-drop {
+    position: absolute;
+    top: -50px;
+    font-size: 20px;
+    color: #000000;
+    font-weight: bold;
+    animation: fall ease-in-out infinite;
+}
+
+body.dark-mode .drop {
+    color: #00cc00; /* Dim green for dark mode */
+}
+
+body.dark-mode .title-drop {
+    color: #ffffff; /* Adjusted red for dark mode */
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0); /* Start at the top */
+    }
+    100% {
+        transform: translateY(100vh); /* End at the bottom of the viewport */
+    }
+}
+
+/* Footer */
+footer {
+    position: relative;
+    background: #fff;
+    color: #000;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode footer {
+    background: #333;
+    color: #fff;
+}
+
+
+
+
+
+
+

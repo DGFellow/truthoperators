@@ -44,7 +44,7 @@ function generateRandomDrop() {
     drop.classList.add("drop"); // Add the CSS class for styling
 
     // Set a random animation duration (fast-moving drops)
-    drop.style.animationDuration = `${Math.random() * 2 + 1}s`;
+    drop.style.animationDuration = `${Math.random() * 1 + 2}s`;
 
     // Randomize the drop's horizontal position
     const left = Math.random() * cloud.clientWidth;
@@ -71,7 +71,7 @@ function generateTitleDrop() {
     drop.classList.add("title-drop"); // Add the CSS class for title styling
 
     // Set a slower animation duration for titles
-    drop.style.animationDuration = `${Math.random() * 4 + 3}s`;
+    drop.style.animationDuration = `${Math.random() * 4 + 4}s`;
 
     // Randomize the drop's horizontal position
     const left = Math.random() * cloud.clientWidth;
@@ -116,3 +116,80 @@ function toggleDarkMode() {
 }
 
 document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode); // Add toggle event listener
+
+// Check if the container exists in your DOM
+const threeContainer = document.getElementById('threeContainer');
+
+if (threeContainer) {
+    // Initialize Three.js
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, threeContainer.clientWidth / threeContainer.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true }); // Transparent background
+    renderer.setSize(threeContainer.clientWidth, threeContainer.clientHeight);
+    threeContainer.appendChild(renderer.domElement);
+
+    // Add Lighting
+    const light = new THREE.PointLight(0xffffff, 1);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    // Create Head
+    const headMaterial = new THREE.MeshStandardMaterial({ color: 0xffcc99 });
+    const headGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+    const head = new THREE.Mesh(headGeometry, headMaterial);
+    head.position.set(0, 0, 0);
+    scene.add(head);
+
+    // Create Binoculars
+    const binocularMaterial = new THREE.MeshStandardMaterial({ color: 0x333333 });
+    const cylinderGeometry = new THREE.CylinderGeometry(0.2, 0.2, 1, 32);
+
+    const leftLens = new THREE.Mesh(cylinderGeometry, binocularMaterial);
+    leftLens.rotation.z = Math.PI / 2; // Rotate horizontally
+    leftLens.position.set(-0.4, 0.2, 0.8); // Slightly to the left
+    head.add(leftLens); // Attach to head
+
+    const rightLens = new THREE.Mesh(cylinderGeometry, binocularMaterial);
+    rightLens.rotation.z = Math.PI / 2; // Rotate horizontally
+    rightLens.position.set(0.4, 0.2, 0.8); // Slightly to the right
+    head.add(rightLens); // Attach to head
+
+    // Connecting Bar for Binoculars
+    const barGeometry = new THREE.BoxGeometry(1, 0.1, 0.1);
+    const bar = new THREE.Mesh(barGeometry, binocularMaterial);
+    bar.position.set(0, 0.2, 0.8); // Centered between lenses
+    head.add(bar); // Attach to head
+
+    // Cursor Tracking
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', (event) => {
+        const rect = threeContainer.getBoundingClientRect();
+        mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    });
+
+    // Animation Loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Smoothly rotate the head and binoculars toward the cursor
+        head.rotation.y = mouseX * Math.PI * 0.25; // Rotate horizontally
+        head.rotation.x = mouseY * Math.PI * 0.25; // Rotate vertically
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        camera.aspect = threeContainer.clientWidth / threeContainer.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(threeContainer.clientWidth, threeContainer.clientHeight);
+    });
+
+    // Position the Camera
+    camera.position.z = 5; // Backward for full view
+    camera.position.y = 1; // Slightly above the head
+}
+
