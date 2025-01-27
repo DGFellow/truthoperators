@@ -1,0 +1,216 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #f1f1f1;
+}
+
+/* Header */
+header {
+    background: #fff;
+    color: #000;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+body.dark-mode header {
+    background: #333;
+    color: #fff;
+}
+
+header h1 {
+    margin: 0;
+    text-align: left;
+    font-size: 1.5rem;
+}
+
+/* Navigation */
+nav {
+    background: #fff;
+    color: #000;
+    padding: 0.5rem 0;
+    text-align: center;
+}
+
+body.dark-mode nav {
+    background: #333;
+    color: #fff;
+}
+
+nav a {
+    color: inherit;
+    text-decoration: none;
+    margin: 0 1rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Rain Background Container */
+#rainBackground {
+    position: absolute; /* Full-page positioning */
+    top: 120px; /* Start below the header and navigation */
+    bottom: 120px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 120px); /* Adjust height to account for header and navigation */
+    overflow: hidden; /* Prevent overflow of rain drops */
+    z-index: 0; /* Ensure it stays behind the content */
+    background: linear-gradient(to bottom, #000, #222); /* Subtle gradient */
+}
+
+/* Dark Mode */
+body.dark-mode #rainBackground {
+    background: linear-gradient(to bottom, #121212, #1e1e1e); /* Dark mode gradient */
+}
+
+
+/* Cloud for Matrix Rain */
+.cloud {
+    position: relative; /* Matches parent container */
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Ensure no drops spill outside */
+}
+
+/* Foreground Content */
+.content-container {
+    position: relative; /* Content stays above rain */
+    z-index: 1; /* Higher z-index than rain background */
+    padding: 2rem; /* Internal spacing */
+    background-color: rgba(255, 255, 255, 0.9); /* Transparent background */
+    border-radius: 12px; /* Rounded corners */
+    margin: 0 auto; /* Center the container */
+    max-width: 900px; /* Limit content width */
+}
+
+body.dark-mode .content-container {
+    background-color: rgba(18, 18, 18, 0.9); /* Dark mode content background */
+    color: #fff;
+}
+
+/* Article Styling */
+article {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+body.dark-mode article {
+    border-bottom: 1px solid #444;
+}
+
+article:last-of-type {
+    border-bottom: none;
+}
+
+/* Matrix Rain Drops */
+.drop {
+    position: absolute;
+    top: -50px; /* Start above the container */
+    font-size: 16px;
+    color: #00ff00;
+    animation: fall ease-in-out infinite;
+}
+
+.title-drop {
+    position: absolute;
+    top: -50px;
+    font-size: 20px;
+    color: #ff0000;
+    font-weight: bold;
+    animation: fall ease-in-out infinite;
+}
+
+body.dark-mode .drop {
+    color: #00cc00; /* Dim green for dark mode */
+}
+
+body.dark-mode .title-drop {
+    color: #ff5555; /* Adjusted red for dark mode */
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0); /* Start at the top */
+    }
+    100% {
+        transform: translateY(100vh); /* End at the bottom of the viewport */
+    }
+}
+
+/* Footer */
+footer {
+    background: #fff;
+    color: #000;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+body.dark-mode footer {
+    background: #333;
+    color: #fff;
+}
+
+/* Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+    border: 1px solid #fff;
+}
+
+body.dark-mode .slider {
+    border: 1px solid #f1f1f1;
+}
+
+.slider:before {
+    position: absolute;
+    content: '';
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #333;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
